@@ -1,0 +1,9 @@
+module components
+
+DetailRow 1.0 DetailRow.qml
+Icon 1.0 Icon.qml
+StatButton 1.0 StatButton.qml
+Tooltip 1.0 Tooltip.qml
+TopBar 1.0 TopBar.qml
+WorkspaceButton 1.0 WorkspaceButton.qml
+WorkspacesBar 1.0 WorkspacesBar.qml
