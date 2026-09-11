@@ -32,7 +32,7 @@ PanelWindow {
     screen: screenData
 
     // workspaces
-    WorkspacesBar {
+    WorkspaceSwitcher {
         screenData: root.screenData
         anchors.left: parent.left
         anchors.leftMargin: 12

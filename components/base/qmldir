@@ -1,0 +1,4 @@
+module components.base
+
+Tooltip 1.0 Tooltip.qml
+Icon 1.0 Icon.qml

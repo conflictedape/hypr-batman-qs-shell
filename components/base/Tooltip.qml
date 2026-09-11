@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import "../"
+import "../../"
 
 /**
  * A small hover-triggered popup showing plain multi-line text below the

@@ -24,4 +24,5 @@ QtObject {
     readonly property string disk: "\ue1db" // storage
     readonly property string uptime: "\uefd6" // schedule
     readonly property string gpu: "\uf7a3" // memory_alt
+    readonly property string specialCharacter: "\uf74a" // special_character
 }

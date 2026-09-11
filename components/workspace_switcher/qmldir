@@ -1,0 +1,4 @@
+module components.workspace_switcher
+
+WorkspaceButton 1.0 WorkspaceButton.qml
+WorkspaceSwitcher 1.0 WorkspaceSwitcher.qml

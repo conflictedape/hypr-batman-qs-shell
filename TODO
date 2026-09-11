@@ -1,0 +1,9 @@
+Known Issues:
+
+Workspace Switcher:
+1. When special is Open, clicked on another workspace.. It doesn't close special.
+    Ex: current wokspace = 3, toggle special, click on workspace 4
+        expected: special closes, focus changes to workspace 4
+        current behaviour: special is still open, focus changes to workspace 4
+2. When Special is Open, there's no way to indicate that special is open.
+    Ex: change the special workspace button symbol when toggled open vs closed

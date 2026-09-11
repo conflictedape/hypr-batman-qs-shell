@@ -1,6 +1,8 @@
 import QtQuick
 import "../"
-import "../services"
+import "../../"
+import "../../services"
+
 
 /**
  * One numbered workspace box. Active workspace gets an orange background;
@@ -37,7 +39,7 @@ Rectangle {
         text: root.wsId;
         color: root.active ? Theme.workspaceActiveText : Theme.foreground
         font.family: Theme.fontFamily;
-        font.pixelSize: Theme.fontSizeSmall
+        font.pixelSize: Theme.fontSizeSmall;
         font.bold: root.active
     }
 
@@ -45,10 +47,9 @@ Rectangle {
     Icon {
         visible: root.wsId < 0;
         anchors.centerIn: parent
-        text: 'special_character'
+        glyph: Icons.specialCharacter
         color: Theme.foreground
-        font.family: Theme.iconFontFamily
-        font.pixelSize: Theme.fontSizeIcon
+        iconSize: Theme.fontSizeIcon
     }
 
     MouseArea {

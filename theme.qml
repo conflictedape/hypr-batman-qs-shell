@@ -2,7 +2,7 @@ pragma Singleton
 
 import QtQuick
 // import Quickshell.Hyprland
-import 'services'
+// import "services"
 
 
 

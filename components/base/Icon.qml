@@ -1,5 +1,5 @@
 import QtQuick
-import "../"
+import "../../"
 
 /**
  * Renders a single Material Symbols Rounded glyph. Pass a codepoint from
