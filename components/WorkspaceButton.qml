@@ -12,13 +12,14 @@ Rectangle {
     id: root
 
     required property int wsId
+    required property string wsName
 
     readonly property bool active: Workspaces.isActive(wsId)
     readonly property bool occupied: Workspaces.isOccupied(wsId)
 
-    width: 40
-    height: 25
-    radius: 2
+    width: Theme.workspaceButtonWidth
+    height: Theme.workspaceButtonHeight
+    radius: Theme.workspaceButtonBorderRadius
     color: {
         if (active)
             return Theme.workspaceActiveBackground;
@@ -29,22 +30,35 @@ Rectangle {
     border.color: Theme.border
     border.width: active ? 0 : 1
 
+
     Text {
+        visible: root.wsId > 0;
         anchors.centerIn: parent
-        text: root.wsId
+        text: root.wsId;
         color: root.active ? Theme.workspaceActiveText : Theme.foreground
-        font.family: Theme.fontFamily
+        font.family: Theme.fontFamily;
         font.pixelSize: Theme.fontSizeSmall
         font.bold: root.active
     }
 
+    // for special workspace (id == -99)
+    Icon {
+        visible: root.wsId < 0;
+        anchors.centerIn: parent
+        text: 'special_character'
+        color: Theme.foreground
+        font.family: Theme.iconFontFamily
+        font.pixelSize: Theme.fontSizeIcon
+    }
+
     MouseArea {
         id: mouseArea
-        
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: Workspaces.activate(root.wsId)
+        onClicked: {
+            Workspaces.activate(root.wsId)
+        }
     }
 
     Tooltip {

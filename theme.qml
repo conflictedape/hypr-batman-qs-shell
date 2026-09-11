@@ -12,14 +12,13 @@ import 'services'
 */
 QtObject {
     id: root
-    property int workspaceCount: Workspaces.activeMonitorWorkspaceCount
-    
 
     // --- Fonts ---------------------------------------------------------
     readonly property string fontFamily: "Hack Nerd Font Mono"
     readonly property int fontSizeSmall: 12
     readonly property int fontSizeNormal: 14
     readonly property int fontSizeIcon: 18
+    readonly property string iconFontFamily: "Material Symbols Rounded"
 
     // --- Base palette ----------------------------------------------------
     readonly property color background: "#111111"
@@ -36,18 +35,20 @@ QtObject {
 
     // --- Workspaces --------------------------------------------------------
     // readonly property int workspaceCount: 7
-    readonly property int workspaceSize: 30
-    readonly property int workspaceRadius: 4
+    readonly property int workspaceButtonWidth: 40
+    readonly property int workspaceButtonHeight: 24
+    readonly property int workspaceButtonBorderRadius: 2
     readonly property color workspaceActiveBackground: foreground
     readonly property color workspaceActiveText: background
     readonly property color workspaceInactiveBackground: "transparent"
     readonly property color workspaceOccupiedBackground: "#333333"
+    readonly property color specialWorkspaceBackground: "#143286"
 
     // --- Layout ----------------------------------------------------------
     readonly property int barHeight: 32
     readonly property int spacingSmall: 6
     readonly property int spacingNormal: 18
     readonly property int radiusSmall: 6
-    readonly property int radiusNormal: 10
+    readonly property int radiusNormal: 8
     readonly property int popupPadding: 12
 }

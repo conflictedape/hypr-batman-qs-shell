@@ -14,6 +14,7 @@ import Quickshell.Hyprland
 */
 QtObject {
     id: root
+    property int lastActiveWorkspace: -1
 
     /**
      * Whether workspace `id` is the currently focused one.
@@ -58,16 +59,23 @@ QtObject {
     }
 
     /**
-     * Switches Hyprland to workspace `id`. Uses the Lua dispatcher syntax
-     * (`hl.dsp.focus({ workspace = ... })`) required by Hyprland >= 0.55,
-     * which replaced the old plain-text `dispatch workspace N` syntax —
-     * confirmed against this machine's own hypr/config/binds.lua convention.
-    */
+     *  Function to switch to the workspace with the given `id`.
+     *  Primarily used by the workspace switcher UI.
+     */
     function activate(id: int): void {
+        lastActiveWorkspace = Hyprland.focusedWorkspace.id
+        if (id == lastActiveWorkspace) return
+        console.log(`Switching Workspace -> from:: ${lastActiveWorkspace} to:: ${id}`)
+
+        // id == -99 is assigned to special workspace in hyprland
+        if (id == -99) {
+            Hyprland.dispatch(`hl.dsp.workspace.toggle_special()`)
+            return
+        }
+
         Hyprland.dispatch(`hl.dsp.focus({ workspace = ${id} })`);
     }
 
-    
     readonly property int totalWorkspaceCount:
         Hyprland.workspaces.values.length
 
@@ -79,6 +87,52 @@ QtObject {
             workspace => workspace.monitor === root.activeMonitor
         )
         : []
+
+    // debug -- only!!
+    // TODO: remove this
+    Component.onCompleted : {
+        const workspacesObj = {}
+        for (const workspace of Hyprland.workspaces.values) {
+            // if (workspace.id < 0)
+            //     continue
+
+            const monitor = workspace.monitor.name
+            if (!workspacesObj[monitor])
+                workspacesObj[monitor] = []
+
+            workspacesObj[monitor].push({
+                id: workspace.id,
+                name: workspace.name,
+                active: workspace.active
+            })
+        }
+        console.info("workspacesObj: " + JSON.stringify(workspacesObj))
+    }
+
+    function generateWorkspacesObj(): var {
+        const workspacesObj = {}
+        for (const workspace of Hyprland.workspaces.values) {
+            // Uncomment to filter out special workspace, special workspace id is -99
+            // if (workspace.id < 0) continue
+
+            const monitor = workspace.monitor.name
+            if (!workspacesObj[monitor])
+                workspacesObj[monitor] = []
+
+            workspacesObj[monitor].push({
+                id: workspace.id,
+                name: workspace.name,
+                active: workspace.active
+            })
+        }
+
+        console.warn(JSON.stringify(workspacesObj))
+        return workspacesObj
+    }
+
+    function get_workspacesObjForMonitor(monitor: string): var {
+        return generateWorkspacesObj()[monitor]
+    }
 
     readonly property int activeMonitorWorkspaceCount:
         root.activeMonitorWorkspaces.length
