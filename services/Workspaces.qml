@@ -114,6 +114,8 @@ QtObject {
         for (const workspace of Hyprland.workspaces.values) {
             // Uncomment to filter out special workspace, special workspace id is -99
             // if (workspace.id < 0) continue
+            // ignore gaming workspace
+            if (workspace.id == -1337) continue
 
             const monitor = workspace.monitor.name
             if (!workspacesObj[monitor])

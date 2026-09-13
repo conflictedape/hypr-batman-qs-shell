@@ -11,3 +11,5 @@ WorkspaceButton 1.0 workspace_switcher/WorkspaceButton.qml
 WorkspaceSwitcher 1.0 workspace_switcher/WorkspaceSwitcher.qml
 
 MusicPlayer 1.0 music_player/MusicPlayer.qml
+MusicPlayerPanel 1.0 music_player/MusicPlayerPanel.qml
+MusicPlayerPanelAnimation 1.0 music_player/MusicPlayerPanelAnimation.qml

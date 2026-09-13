@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell.Services.Mpris
 import "../base"
+import "."
 import '../..'
 
 Row {
@@ -8,6 +9,8 @@ Row {
     spacing: 8
 
     property var player: null
+    property bool panelOpen: false
+    property var panelScreen: null
 
     function togglePlayPause(): void {
         if (!root.player)
@@ -55,6 +58,22 @@ Row {
 
         console.log(`MusicPlayer:: playing ${root.player.dbusName}`)
         root.player.play()
+    }
+
+    function togglePanel(): void {
+        root.panelOpen = !root.panelOpen
+        console.log(`MusicPlayer:: panel ${root.panelOpen ? "opened" : "closed"}`)
+        if (root.panelOpen)
+            detailsPanel.openPanel()
+        else
+            detailsPanel.closePanel()
+    
+    }
+
+    function closePanel(): void {
+        root.panelOpen = false
+        detailsPanel.closePanel()
+        console.log("MusicPlayer:: panel closed")
     }
 
 
@@ -126,25 +145,50 @@ Row {
             }
         }
 
-        Text {
-            id: musicPlayerText
-            text: root.player
-                ? root.player.trackTitle
-                : "Nothing playing"
-            color: Theme.foreground
-            font.pixelSize: 13
+        Item {
+            id: musicPlayerItem
+            implicitWidth: musicPlayerText.implicitWidth + musicPlayerArtist.implicitWidth + root.spacing
+            implicitHeight: Math.max(musicPlayerText.implicitHeight, musicPlayerArtist.implicitHeight)
             anchors.left: musicPlayerIcon.right
             anchors.leftMargin: root.spacing
             anchors.verticalCenter: parent.verticalCenter
+
+            Text {
+                id: musicPlayerText
+                text: root.player
+                    ? root.player.trackTitle
+                    : "Nothing playing"
+                color: Theme.foreground
+                font.pixelSize: 13
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Text {
+                id: musicPlayerArtist
+                text: root.player ? `${root.player.trackArtist}` : ""
+                color: Theme.disabled
+                font.pixelSize: 12
+                anchors.left: musicPlayerText.right
+                anchors.leftMargin: root.spacing
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
 
         MouseArea {
             id: musicPlayerMouseArea
             // hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            anchors.fill: musicPlayerText
-            onClicked: console.log("MusicPlayer:: title clicked")
+            anchors.fill: musicPlayerItem
+            onClicked: root.togglePanel()
         }
+    }
+
+    MusicPlayerPanel {
+        id: detailsPanel
+        musicPlayer: root
+        anchorItem: root
+        panelOpen: root.panelOpen
     }
 
     // Text {

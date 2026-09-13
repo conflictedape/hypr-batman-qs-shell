@@ -27,6 +27,7 @@ PanelWindow {
     Component.onCompleted: {
         for(const player of Mpris.players.values){
             console.log(`player ${player.dbusName}`)
+            console.log(player)
         }
     }
 
@@ -42,6 +43,7 @@ PanelWindow {
 
     // workspaces
     WorkspaceSwitcher {
+        id: workspaceSwitcher
         screenData: root.screenData
         anchors.left: parent.left
         anchors.leftMargin: 12
@@ -50,7 +52,7 @@ PanelWindow {
 
     MusicPlayer {
         anchors.left: parent.left
-        anchors.leftMargin: 300
+        anchors.leftMargin: workspaceSwitcher.width + 40
         anchors.verticalCenter: parent.verticalCenter
     }
 
