@@ -3,7 +3,6 @@ import "../"
 import "../../"
 import "../../services"
 
-
 /**
  * One numbered workspace box. Active workspace gets an orange background;
  * an occupied-but-inactive workspace gets a subtly different shade so you
@@ -32,20 +31,19 @@ Rectangle {
     border.color: Theme.border
     border.width: active ? 0 : 1
 
-
     Text {
-        visible: root.wsId > 0;
+        visible: root.wsId > 0
         anchors.centerIn: parent
-        text: root.wsId;
+        text: root.wsId
         color: root.active ? Theme.workspaceActiveText : Theme.foreground
-        font.family: Theme.fontFamily;
-        font.pixelSize: Theme.fontSizeSmall;
+        font.family: Theme.fontFamily
+        font.pixelSize: Theme.fontSizeSmall
         font.bold: root.active
     }
 
     // for special workspace (id == -99)
     Icon {
-        visible: root.wsId < 0;
+        visible: root.wsId < 0
         anchors.centerIn: parent
         glyph: Icons.specialCharacter
         color: Theme.foreground
@@ -58,7 +56,7 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            Workspaces.activate(root.wsId)
+            Workspaces.activate(root.wsId);
         }
     }
 

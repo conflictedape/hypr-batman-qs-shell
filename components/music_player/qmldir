@@ -1,5 +1,0 @@
-module components.music_player
-
-MusicPlayer 1.0 MusicPlayer.qml
-MusicPlayerPanel 1.0 MusicPlayerPanel.qml
-MusicPlayerPanelAnimation 1.0 MusicPlayerPanelAnimation.qml

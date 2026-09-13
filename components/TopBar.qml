@@ -1,10 +1,6 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import "../"
-import "../services"
-import Quickshell.Services.Mpris
-
 
 // qmllint disable uncreatable-type
 // PanelWindow is a Quickshell interface type flagged as uncreatable by static
@@ -14,22 +10,6 @@ PanelWindow {
     id: root
 
     property var screenData
-
-    // Component.onCompleted: {
-    //     (() => {
-    //         console.warn("=== TOPBAR DEBUG ===")
-    //         console.log(screenData)
-    //         console.warn("=====================")
-    //     })()
-    // }
-
-
-    Component.onCompleted: {
-        for(const player of Mpris.players.values){
-            console.log(`player ${player.dbusName}`)
-            console.log(player)
-        }
-    }
 
     anchors {
         top: true
@@ -55,5 +35,4 @@ PanelWindow {
         anchors.leftMargin: workspaceSwitcher.width + 40
         anchors.verticalCenter: parent.verticalCenter
     }
-
 }

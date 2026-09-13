@@ -1,7 +1,5 @@
 module components
 
-DetailRow 1.0 DetailRow.qml
-StatButton 1.0 StatButton.qml
 TopBar 1.0 TopBar.qml
 
 Icon 1.0 base/Icon.qml

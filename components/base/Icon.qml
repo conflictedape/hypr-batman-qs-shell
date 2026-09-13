@@ -21,11 +21,11 @@ Text {
     font.family: Icons.fontFamily
     font.pixelSize: iconSize
     font.variableAxes: ({
-                            "FILL": filled ? 1 : 0,
-                            "wght": 400,
-                            "GRAD": 0,
-                            "opsz": iconSize
-                        })
+            "FILL": filled ? 1 : 0,
+            "wght": 400,
+            "GRAD": 0,
+            "opsz": iconSize
+        })
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

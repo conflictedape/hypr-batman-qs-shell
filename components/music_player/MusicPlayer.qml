@@ -1,8 +1,7 @@
 import QtQuick
 import Quickshell.Services.Mpris
 import "../base"
-import "."
-import '../..'
+import "../.."
 
 Row {
     id: root
@@ -14,91 +13,79 @@ Row {
 
     function togglePlayPause(): void {
         if (!root.player)
-            return
-        if (root.isPlaying){
-            root.pauseTrack()
-            console.log(`MusicPlayer:: Paused ${root.player.dbusName}`)
-        }
-        else {
-            root.playTrack()
-            console.log(`MusicPlayer:: Playing ${root.player.dbusName}`)
-        }
+            return;
+        if (root.isPlaying)
+            root.pauseTrack();
+        else
+            root.playTrack();
     }
 
     function selectPlayer(): var {
-        const players = Mpris.players.values
+        const players = Mpris.players.values;
 
         for (const p of players) {
             if (p.playbackState === MprisPlaybackState.Playing)
-                return p
+                return p;
         }
 
-        return players.length > 0 ? players[0] : null
+        return players.length > 0 ? players[0] : null;
     }
 
     function refreshPlayer(): void {
-        root.player = root.selectPlayer()
-        console.log(`MusicPlayer:: refresh, players=${Mpris.players.values.length}, selected=${root.player ? root.player.dbusName : "none"}`)
+        root.player = root.selectPlayer();
     }
 
-    readonly property bool isPlaying: root.player
-        && root.player.playbackState === MprisPlaybackState.Playing
+    readonly property bool isPlaying: root.player && root.player.playbackState === MprisPlaybackState.Playing
 
     function pauseTrack(): void {
         if (!root.player)
-            return
-
-        console.log(`MusicPlayer:: stopping ${root.player.dbusName}`)
-        root.player.pause()
+            return;
+        root.player.pause();
     }
 
     function playTrack(): void {
         if (!root.player)
-            return
-
-        console.log(`MusicPlayer:: playing ${root.player.dbusName}`)
-        root.player.play()
+            return;
+        root.player.play();
     }
 
     function togglePanel(): void {
-        root.panelOpen = !root.panelOpen
-        console.log(`MusicPlayer:: panel ${root.panelOpen ? "opened" : "closed"}`)
+        root.panelOpen = !root.panelOpen;
         if (root.panelOpen)
-            detailsPanel.openPanel()
+            detailsPanel.openPanel();
         else
-            detailsPanel.closePanel()
-    
+            detailsPanel.closePanel();
     }
 
     function closePanel(): void {
-        root.panelOpen = false
-        detailsPanel.closePanel()
-        console.log("MusicPlayer:: panel closed")
+        root.panelOpen = false;
+        detailsPanel.closePanel();
     }
-
 
     Connections {
         target: Mpris.players
-        function onRowsInserted() { root.refreshPlayer() }
-        function onRowsRemoved() { root.refreshPlayer() }
-        function onModelReset() { root.refreshPlayer() }
+        function onRowsInserted() {
+            root.refreshPlayer();
+        }
+        function onRowsRemoved() {
+            root.refreshPlayer();
+        }
+        function onModelReset() {
+            root.refreshPlayer();
+        }
     }
 
     Connections {
         target: root.player
-        function onPlaybackStateChanged() { root.refreshPlayer() }
-        function onTrackTitleChanged() { root.refreshPlayer() }
-    }
-
-    Component.onCompleted: {
-        console.log(`MusicPlayer:: initialized, players=${Mpris.players.values.length}`)
-        for (const player of Mpris.players.values) {
-            console.log(`MusicPlayer:: player ${player.dbusName}`)
-            console.log(JSON.stringify(player))
+        function onPlaybackStateChanged() {
+            root.refreshPlayer();
         }
-        root.refreshPlayer()
+        function onTrackTitleChanged() {
+            root.refreshPlayer();
+        }
     }
 
+    Component.onCompleted: root.refreshPlayer()
 
     Item {
         implicitWidth: musicPlayerIcon.width + root.spacing + musicPlayerText.implicitWidth
@@ -123,20 +110,20 @@ Row {
             }
 
             Connections {
-                 target: root
-                 // triggers when root.isPlaying changes, no need to bind it
-                 function onIsPlayingChanged() {
-                     if (root.isPlaying) {
-                         // When playing, update 'from' to current angle so it resumes smoothly
-                         spinAnimation.from = musicPlayerIcon.rotation
-                         spinAnimation.start()
-                     } else {
-                         // When paused, stop spinning and instantly snap back to 0
-                         spinAnimation.stop()
-                         musicPlayerIcon.rotation = 0
-                     }
-                 }
-             }
+                target: root
+                // triggers when root.isPlaying changes, no need to bind it
+                function onIsPlayingChanged() {
+                    if (root.isPlaying) {
+                        // When playing, update 'from' to current angle so it resumes smoothly
+                        spinAnimation.from = musicPlayerIcon.rotation;
+                        spinAnimation.start();
+                    } else {
+                        // When paused, stop spinning and instantly snap back to 0
+                        spinAnimation.stop();
+                        musicPlayerIcon.rotation = 0;
+                    }
+                }
+            }
 
             MouseArea {
                 anchors.fill: parent
@@ -155,9 +142,7 @@ Row {
 
             Text {
                 id: musicPlayerText
-                text: root.player
-                    ? root.player.trackTitle
-                    : "Nothing playing"
+                text: root.player ? root.player.trackTitle : "Nothing playing"
                 color: Theme.foreground
                 font.pixelSize: 13
                 anchors.left: parent.left
@@ -190,12 +175,4 @@ Row {
         anchorItem: root
         panelOpen: root.panelOpen
     }
-
-    // Text {
-    //     text: root.player
-    //         ? root.player.trackArtist
-    //         : ""
-    //     color: Theme.foreground
-    //     opacity: 0.55
-    // }
 }

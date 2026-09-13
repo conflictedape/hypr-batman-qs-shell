@@ -1,12 +1,15 @@
+pragma ComponentBehavior: Bound
 import Quickshell
 import QtQuick
-import Quickshell.Wayland
 import "./components"
 
-pragma ComponentBehavior: Bound
-
-// TODO: remove unused imports
-// Quickshell watches imported files, so these imports keep the components available during development.
+// Quickshell only watches files reachable via import statements from
+// shell.qml. TopBar.qml is reached through "./components" above, but it
+// doesn't import these two subdirectories itself (they're pulled in via
+// the components/qmldir module), so list them here explicitly — otherwise
+// editing WorkspaceSwitcher/MusicPlayer during development won't trigger
+// a hot reload. Verified: removing these stops reload on edits to files
+// under workspace_switcher/ and music_player/.
 import "./components/workspace_switcher"
 import "./components/music_player"
 
@@ -21,13 +24,6 @@ ShellRoot {
             property TopBar topBar: TopBar {
                 screenData: screenDelegate.modelData
             }
-
-            // property PanelWindow lowerPanel: PanelWindow {
-            //     screen: screenDelegate.modelData
-            //     WlrLayershell.layer: WlrLayer.Top
-            //     implicitHeight: 100
-            //     color: Theme.background
-            // }
         }
     }
 }

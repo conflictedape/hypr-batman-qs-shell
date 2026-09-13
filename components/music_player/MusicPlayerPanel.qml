@@ -1,10 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Wayland
-import "../base"
 import "../.."
-import "."
 
 // qmllint disable uncreatable-type
 PanelWindow {
@@ -20,17 +17,16 @@ PanelWindow {
     implicitWidth: 360
     implicitHeight: panelContent.implicitHeight + Theme.popupPadding * 2
 
-
     function openPanel(): void {
-        panelOpen = true
-        panelContent.opacity = 0
-        panelContent.y = -openAnimation.offset
-        openAnimation.start()
+        panelOpen = true;
+        panelContent.opacity = 0;
+        panelContent.y = -openAnimation.offset;
+        openAnimation.start();
     }
 
     function closePanel(): void {
-        panelOpen = false
-        openAnimation.stop()
+        panelOpen = false;
+        openAnimation.stop();
     }
 
     ColumnLayout {
@@ -40,9 +36,7 @@ PanelWindow {
         spacing: Theme.spacingSmall
 
         Text {
-            text: root.musicPlayer && root.musicPlayer.player
-                ? root.musicPlayer.player.trackTitle
-                : "Nothing playing"
+            text: root.musicPlayer && root.musicPlayer.player ? root.musicPlayer.player.trackTitle : "Nothing playing"
             color: Theme.foreground
             font.pixelSize: Theme.fontSizeNormal
             elide: Text.ElideRight
@@ -50,9 +44,7 @@ PanelWindow {
         }
 
         Text {
-            text: root.musicPlayer && root.musicPlayer.player
-                ? root.musicPlayer.player.trackArtist
-                : ""
+            text: root.musicPlayer && root.musicPlayer.player ? root.musicPlayer.player.trackArtist : ""
             color: Theme.disabled
             font.pixelSize: Theme.fontSizeSmall
             elide: Text.ElideRight
@@ -60,9 +52,7 @@ PanelWindow {
         }
 
         Text {
-            text: root.musicPlayer && root.musicPlayer.player
-                ? `DBus: ${root.musicPlayer.player.dbusName}`
-                : "No MPRIS player"
+            text: root.musicPlayer && root.musicPlayer.player ? `DBus: ${root.musicPlayer.player.dbusName}` : "No MPRIS player"
             color: Theme.accentGray
             font.pixelSize: Theme.fontSizeSmall
             elide: Text.ElideRight

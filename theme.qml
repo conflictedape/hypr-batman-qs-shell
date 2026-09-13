@@ -1,10 +1,6 @@
 pragma Singleton
 
 import QtQuick
-// import Quickshell.Hyprland
-// import "services"
-
-
 
 /**
  * Central theme definition: colors, fonts, and spacing used across the
@@ -34,7 +30,6 @@ QtObject {
     readonly property color hoverBackground: "#2a2a2a"
 
     // --- Workspaces --------------------------------------------------------
-    // readonly property int workspaceCount: 7
     readonly property int workspaceButtonWidth: 40
     readonly property int workspaceButtonHeight: 24
     readonly property int workspaceButtonBorderRadius: 2

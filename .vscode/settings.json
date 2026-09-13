@@ -1,0 +1,14 @@
+{
+    // Qt QML extension (theqtcompany.qt-qml) — drives qmlls for this workspace.
+    // qmlls ships with qt6-declarative but isn't on PATH; point at it directly.
+    "qt-qml.qmlls.customExePath": "/usr/lib/qt6/bin/qmlls",
+    // Quickshell's own QML modules (Quickshell, Quickshell.Hyprland,
+    // Quickshell.Io, Quickshell.Services.Mpris, ...) live here, not under
+    // the project — without this qmlls can't resolve those imports.
+    "qt-qml.qmlls.additionalImportPaths": [
+        "/usr/lib/qt6/qml"
+    ],
+    "files.associations": {
+        "*.qml": "qml"
+    }
+}

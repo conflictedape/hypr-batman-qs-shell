@@ -63,79 +63,56 @@ QtObject {
      *  Primarily used by the workspace switcher UI.
      */
     function activate(id: int): void {
-        lastActiveWorkspace = Hyprland.focusedWorkspace.id
-        if (id == lastActiveWorkspace) return
-        console.log(`Switching Workspace -> from:: ${lastActiveWorkspace} to:: ${id}`)
+        lastActiveWorkspace = Hyprland.focusedWorkspace?.id ?? -1;
+        if (id == lastActiveWorkspace)
+            return;
 
         // id == -99 is assigned to special workspace in hyprland
         if (id == -99) {
-            Hyprland.dispatch(`hl.dsp.workspace.toggle_special()`)
-            return
+            Hyprland.dispatch(`hl.dsp.workspace.toggle_special()`);
+            return;
         }
 
         Hyprland.dispatch(`hl.dsp.focus({ workspace = ${id} })`);
     }
 
-    readonly property int totalWorkspaceCount:
-        Hyprland.workspaces.values.length
+    readonly property int totalWorkspaceCount: Hyprland.workspaces.values.length
 
-    readonly property HyprlandMonitor activeMonitor:
-        Hyprland.focusedMonitor
+    readonly property HyprlandMonitor activeMonitor: Hyprland.focusedMonitor
 
-    readonly property var activeMonitorWorkspaces: root.activeMonitor
-        ? Hyprland.workspaces.values.filter(
-            workspace => workspace.monitor === root.activeMonitor
-        )
-        : []
+    readonly property var activeMonitorWorkspaces: root.activeMonitor ? Hyprland.workspaces.values.filter(workspace => workspace.monitor === root.activeMonitor) : []
 
-    // debug -- only!!
-    // TODO: remove this
-    Component.onCompleted : {
-        const workspacesObj = {}
+    // Workspaces grouped by monitor name. A plain readonly property (not a
+    // function) so QML's binding system computes it once per
+    // Hyprland.workspaces.values change and shares the result across every
+    // monitor's WorkspaceSwitcher, instead of every switcher re-scanning
+    // and re-grouping all workspaces on its own.
+    readonly property var workspacesByMonitor: {
+        const byMonitor = {};
         for (const workspace of Hyprland.workspaces.values) {
-            // if (workspace.id < 0)
-            //     continue
-
-            const monitor = workspace.monitor.name
-            if (!workspacesObj[monitor])
-                workspacesObj[monitor] = []
-
-            workspacesObj[monitor].push({
-                id: workspace.id,
-                name: workspace.name,
-                active: workspace.active
-            })
-        }
-        console.info("workspacesObj: " + JSON.stringify(workspacesObj))
-    }
-
-    function generateWorkspacesObj(): var {
-        const workspacesObj = {}
-        for (const workspace of Hyprland.workspaces.values) {
-            // Uncomment to filter out special workspace, special workspace id is -99
-            // if (workspace.id < 0) continue
             // ignore gaming workspace
-            if (workspace.id == -1337) continue
+            if (workspace.id == -1337)
+                continue;
+            // a workspace can briefly have no monitor assigned (e.g. during
+            // a monitor hotplug/reconfigure) — skip it rather than crash
+            if (!workspace.monitor)
+                continue;
+            const monitor = workspace.monitor.name;
+            if (!byMonitor[monitor])
+                byMonitor[monitor] = [];
 
-            const monitor = workspace.monitor.name
-            if (!workspacesObj[monitor])
-                workspacesObj[monitor] = []
-
-            workspacesObj[monitor].push({
+            byMonitor[monitor].push({
                 id: workspace.id,
                 name: workspace.name,
                 active: workspace.active
-            })
+            });
         }
-
-        console.warn(JSON.stringify(workspacesObj))
-        return workspacesObj
+        return byMonitor;
     }
 
     function get_workspacesObjForMonitor(monitor: string): var {
-        return generateWorkspacesObj()[monitor]
+        return root.workspacesByMonitor[monitor];
     }
 
-    readonly property int activeMonitorWorkspaceCount:
-        root.activeMonitorWorkspaces.length
+    readonly property int activeMonitorWorkspaceCount: root.activeMonitorWorkspaces.length
 }
