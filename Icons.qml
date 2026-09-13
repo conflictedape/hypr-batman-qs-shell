@@ -25,4 +25,6 @@ QtObject {
     readonly property string uptime: "\uefd6" // schedule
     readonly property string gpu: "\uf7a3" // memory_alt
     readonly property string specialCharacter: "\uf74a" // special_character
+    readonly property string genres: "\ue022" // genres
+    readonly property string pauseCircle: "\ue1a2" // pause_circle
 }

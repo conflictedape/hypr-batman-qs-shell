@@ -45,7 +45,7 @@ QtObject {
     readonly property color specialWorkspaceBackground: "#143286"
 
     // --- Layout ----------------------------------------------------------
-    readonly property int barHeight: 32
+    readonly property int barHeight: 40
     readonly property int spacingSmall: 6
     readonly property int spacingNormal: 18
     readonly property int radiusSmall: 6
