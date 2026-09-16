@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell.Services.Mpris
 import "../base"
 import "../.."
+import QtQuick.Layouts
 
 Row {
     id: root
@@ -85,19 +86,25 @@ Row {
         }
     }
 
-    Component.onCompleted: root.refreshPlayer()
+    // Component.onCompleted: root.refreshPlayer()
 
-    Item {
-        implicitWidth: musicPlayerIcon.width + root.spacing + musicPlayerText.implicitWidth
-        implicitHeight: Math.max(musicPlayerIcon.height, musicPlayerText.implicitHeight)
+    Component.onCompleted: {
+        root.refreshPlayer()
+        for(const player of Mpris.players.values){
+            console.log(player)
+        }
+    }
+
+    RowLayout {
+        implicitWidth: musicPlayerIcon.width + root.spacing + trackTitleText.implicitWidth
+        implicitHeight: Math.max(musicPlayerIcon.height, trackTitleText.implicitHeight)
+        visible: root.player
 
         Icon {
             id: musicPlayerIcon
             glyph: root.isPlaying ? Icons.genres : Icons.pauseCircle
             filled: false
             iconSize: Theme.fontSizeIcon
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
 
             RotationAnimation {
                 id: spinAnimation
@@ -105,7 +112,7 @@ Row {
                 property: "rotation"
                 from: musicPlayerIcon.rotation
                 to: 360
-                duration: 1300
+                duration: 1500
                 loops: Animation.Infinite
             }
 
@@ -132,41 +139,51 @@ Row {
             }
         }
 
-        Item {
+        RowLayout {
             id: musicPlayerItem
-            implicitWidth: musicPlayerText.implicitWidth + musicPlayerArtist.implicitWidth + root.spacing
-            implicitHeight: Math.max(musicPlayerText.implicitHeight, musicPlayerArtist.implicitHeight)
-            anchors.left: musicPlayerIcon.right
-            anchors.leftMargin: root.spacing
-            anchors.verticalCenter: parent.verticalCenter
+            implicitWidth: trackTitleText.implicitWidth + trackArtistText.implicitWidth + root.spacing
+            implicitHeight: Math.max(trackTitleText.implicitHeight, trackArtistText.implicitHeight)
+            Layout.margins: {
+                left: 4
+            }
 
             Text {
-                id: musicPlayerText
+                id: trackTitleText
                 text: root.player ? root.player.trackTitle : "Nothing playing"
                 color: Theme.foreground
                 font.pixelSize: 13
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
+
+                Layout.minimumWidth: 10
+                Layout.maximumWidth: 200
+                elide: Text.ElideRight
             }
 
             Text {
-                id: musicPlayerArtist
+                id: trackArtistText
                 text: root.player ? `${root.player.trackArtist}` : ""
                 color: Theme.disabled
                 font.pixelSize: 12
-                anchors.left: musicPlayerText.right
-                anchors.leftMargin: root.spacing
-                anchors.verticalCenter: parent.verticalCenter
+
+                Layout.minimumWidth: 10
+                Layout.maximumWidth: 100
+                elide: Text.ElideRight
+            }
+
+            TapHandler {
+                // acceptedButtons: Qt.LeftButton
+                enabled: root.isPlaying
+                onTapped: function(eventPoint, button) {
+                    console.log("button:", button)
+                    root.togglePanel()
+                }
+            }
+
+            HoverHandler {
+                enabled: root.isPlaying
+                cursorShape: Qt.PointingHandCursor
             }
         }
 
-        MouseArea {
-            id: musicPlayerMouseArea
-            // hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            anchors.fill: musicPlayerItem
-            onClicked: root.togglePanel()
-        }
     }
 
     MusicPlayerPanel {

@@ -1,5 +1,8 @@
 import QtQuick
 import Quickshell
+import Quickshell.Wayland
+import Quickshell.Hyprland
+
 import "../"
 
 // qmllint disable uncreatable-type
@@ -10,6 +13,10 @@ PanelWindow {
     id: root
 
     property var screenData
+    // WlrLayershell.namespace: "quickshell-topbar"
+    property var hyprMonitor: Hyprland.monitorFor(screenData)
+
+    visible: !hyprMonitor?.activeWorkspace?.hasFullscreen
 
     anchors {
         top: true
@@ -17,9 +24,23 @@ PanelWindow {
         right: true
     }
 
+    // qmllint disable unresolved-type unqualified
+    margins {
+        top: 4
+        left: 8
+        right: 8
+    }
+
     implicitHeight: Theme.barHeight
-    color: Theme.background
     screen: screenData
+    color: "transparent"
+    surfaceFormat.opaque: false
+
+    Rectangle {
+        anchors.fill: parent
+        radius: 8
+        color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.85)
+    }
 
     // workspaces
     WorkspaceSwitcher {

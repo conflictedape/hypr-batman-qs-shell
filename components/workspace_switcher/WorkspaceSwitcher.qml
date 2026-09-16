@@ -8,7 +8,7 @@ RowLayout {
 
     property var screenData
 
-    spacing: Theme.spacingSmall / 2
+    spacing: 3.5
 
     Repeater {
         model: Workspaces.get_workspacesObjForMonitor(root.screenData.name)
