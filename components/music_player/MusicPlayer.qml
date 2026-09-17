@@ -3,6 +3,7 @@ import Quickshell.Services.Mpris
 import "../base"
 import "../.."
 import QtQuick.Layouts
+import Quickshell
 
 Row {
     id: root
@@ -52,15 +53,6 @@ Row {
 
     function togglePanel(): void {
         root.panelOpen = !root.panelOpen;
-        if (root.panelOpen)
-            detailsPanel.openPanel();
-        else
-            detailsPanel.closePanel();
-    }
-
-    function closePanel(): void {
-        root.panelOpen = false;
-        detailsPanel.closePanel();
     }
 
     Connections {
@@ -153,7 +145,7 @@ Row {
                 color: Theme.foreground
                 font.pixelSize: 13
 
-                Layout.minimumWidth: 10
+                Layout.minimumWidth: 0
                 Layout.maximumWidth: 200
                 elide: Text.ElideRight
             }
@@ -164,7 +156,7 @@ Row {
                 color: Theme.disabled
                 font.pixelSize: 12
 
-                Layout.minimumWidth: 10
+                Layout.minimumWidth: 0
                 Layout.maximumWidth: 100
                 elide: Text.ElideRight
             }
@@ -183,13 +175,5 @@ Row {
                 cursorShape: Qt.PointingHandCursor
             }
         }
-
-    }
-
-    MusicPlayerPanel {
-        id: detailsPanel
-        musicPlayer: root
-        anchorItem: root
-        panelOpen: root.panelOpen
     }
 }

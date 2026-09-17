@@ -20,7 +20,7 @@ Rectangle {
 
     width: Theme.workspaceButtonWidth
     height: Theme.workspaceButtonHeight
-    radius: 6
+    radius: 4
     color: {
         if (active)
             return Theme.workspaceActiveBackground;

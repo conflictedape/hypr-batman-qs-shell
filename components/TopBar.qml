@@ -13,9 +13,8 @@ PanelWindow {
     id: root
 
     property var screenData
-    // WlrLayershell.namespace: "quickshell-topbar"
+    WlrLayershell.namespace: "quickshell-topbar"
     property var hyprMonitor: Hyprland.monitorFor(screenData)
-
     visible: !hyprMonitor?.activeWorkspace?.hasFullscreen
 
     anchors {
@@ -36,11 +35,11 @@ PanelWindow {
     color: "transparent"
     surfaceFormat.opaque: false
 
-    Rectangle {
-        anchors.fill: parent
-        radius: 8
-        color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.85)
-    }
+    // Rectangle {
+    //     anchors.fill: parent
+    //     radius: 8
+    //     color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.85)
+    // }
 
     // workspaces
     WorkspaceSwitcher {
